@@ -3,24 +3,32 @@
 {% block title %}Add conference room{% endblock %}
 
 {% block content %}
-<h2>New conference room</h2>
-<form method="post">
-    {% csrf_token %}
-    <label>Room name</label><br>
-    <input name="name" type="text" maxlength="255" required value="{{ name }}"><br>
+<div class="container mt-5">
+    <h2>New conference room</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Room name</label>
+            <input id="name" name="name" type="text" class="form-control" maxlength="255" required value="{{ name }}">
+        </div>
 
-    <label>Room capacity</label><br>
-    <input name="capacity" type="number" required value="{{capacity}}"><br>
+        <div class="form-group">
+            <label for="capacity">Room capacity</label>
+            <input id="capacity" name="capacity" type="number" class="form-control" required value="{{ capacity }}">
+        </div>
 
-    <label>Projector present?</label><br>
-    <input name="projector" type="checkbox" {% if projector %}checked{% endif %}><br>
+        <div class="form-check">
+            <input id="projector" name="projector" type="checkbox" class="form-check-input" {% if projector %}checked{% endif %}>
+            <label for="projector" class="form-check-label">Projector present?</label>
+        </div>
 
-    <button type="submit">Add new room</button><br>
+        <button type="submit" class="btn btn-primary mt-3">Add new room</button><br>
 
-    {% if message %}
-    <strong>{{message}}</strong>
-    {% endif %}
-
-</form>
-
+        {% if message %}
+        <div class="alert alert-info mt-3">
+            <strong>{{ message }}</strong>
+        </div>
+        {% endif %}
+    </form>
+</div>
 {% endblock %}
