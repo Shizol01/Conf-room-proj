@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Add conference room{% endblock %}
+
+{% block content %}
+<h2>New conference room</h2>
+<form method="post">
+    {% csrf_token %}
+    <label>Room name</label><br>
+    <input name="name" type="text" maxlength="255" required value="{{ name }}"><br>
+
+    <label>Room capacity</label><br>
+    <input name="capacity" type="number" required value="{{capacity}}"><br>
+
+    <label>Projector present?</label><br>
+    <input name="projector" type="checkbox" {% if projector %}checked{% endif %}><br>
+
+    <button type="submit">Add new room</button><br>
+
+    {% if message %}
+    <strong>{{message}}</strong>
+    {% endif %}
+
+</form>
+
+{% endblock %}

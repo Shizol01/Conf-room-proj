@@ -6,9 +6,10 @@
 </head>
 <body>
     <header>
-        <h1>System rezerwacji</h1>
+        <h1>Conference room reservations</h1>
         <nav>
             <!-- linki do stron -->
+            <a href="{% url 'new_room' %}">Add new room</a>
         </nav>
     </header>
     <main>
@@ -16,7 +17,7 @@
         {% endblock %}
     </main>
     <footer>
-        <p>Stopka Author: Krystian Wrzosek</p>
+        <p>Author: Krystian Wrzosek</p>
     </footer>
 </body>
 </html>
