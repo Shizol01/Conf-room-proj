@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit conference room{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit conference room {{room.name}}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Room name</label>
+            <input id="name" name="name" type="text" class="form-control" maxlength="255" required value="{{ room.name }}">
+        </div>
+
+        <div class="form-group">
+            <label for="capacity">Room capacity</label>
+            <input id="capacity" name="capacity" type="number" class="form-control" required value="{{ room.capacity }}">
+        </div>
+
+        <div class="form-check">
+            <input id="projector" name="projector" type="checkbox" class="form-check-input" {% if room.projector %}checked{% endif %}>
+            <label for="projector" class="form-check-label">Projector present?</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Confirm room specs</button><br>
+
+        {% if message %}
+        <div class="alert alert-info mt-3">
+            <strong>{{ message }}</strong>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

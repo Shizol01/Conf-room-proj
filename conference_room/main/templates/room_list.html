@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Conference rooms list{% endblock %}
+
+{% block content %}
+{% if room_data %}
+    <div class="list-group">
+        {% for item in room_data %}
+            {% with room=item.room %}
+                <a href="room/{{ room.id }}" class="list-group-item list-group-item-action">
+                    <h2>{{ room.name }}</h2>
+                    <strong>Room capacity: {{ room.capacity }} <br>
+                        {% if room.projector %}
+                            Projector available
+                        {% else %}
+                            No projector
+                        {% endif %}
+                        <br>
+
+                    {% if item.is_reserved_today %}
+                        <span class="text-warning">Reserved for today</span>
+                    {% else %}
+                        <span class="text-success">Available for today</span>
+                    {% endif %}
+
+                    </strong>
+                </a>
+
+                <div class="btn-group" style="width: 40%;">
+                    <a href="reserve/{{room.id}}" class="btn btn-primary w-33">Reserve room</a>
+                    <a href="modify/{{room.id}}" class="btn btn-warning w-33">Edit room</a>
+                    <a href="delete/{{room.id}}" class="btn btn-danger w-33">Delete room</a>
+                </div>
+            {% endwith %}
+        {% endfor %}
+    </div>
+{% else %}
+    <strong>No conference rooms available</strong>
+{% endif %}
+{% endblock %}
