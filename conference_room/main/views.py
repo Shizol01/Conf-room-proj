@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.views import View
-from main.models import Room
+from main.models import Room, Reservation
 from django.utils.timezone import now
+from datetime import datetime
 
 # Create your views here.
 class HomePageView(View):
@@ -84,6 +85,31 @@ class EditRoomView(View):
 
         return redirect('list_rooms')
 
+
+class ReserveRoom(View):
+    def get(self,request, id):
+        room = get_object_or_404(Room, id=id)
+        return render(request, 'reserve_room.html')
+
+    def post(self, request, id):
+        comment = request.POST['comment']
+        date_str = request.POST['date']
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        today = now().date()
+        if date < today:
+            message = 'Date cannot be in the past'
+            return render(request, 'reserve_room.html',
+                          {'message': message}, status=400)
+
+        room = get_object_or_404(Room, id=id)
+        if room.reservations.filter(date=date).exists():
+            message = 'Sorry room is reserved for that date'
+            return render(request, 'reserve_room.html',
+                          {'message': message}, status=400)
+
+        Reservation.objects.create(date=date, room=room, comment=comment)
+
+        return redirect('list_rooms')
 
 
 

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Reserve conference room{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow rounded-3">
+                <div class="card-body">
+                    <h3 class="card-title mb-4 text-center">Reserve Conference Room</h3>
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Comment</label>
+                            <input type="text" class="form-control" id="comment" name="comment" placeholder="Optional comment">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Wybierz datę</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Reserve</button>
+                        </div>
+
+                    </form>
+                    {% if message %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

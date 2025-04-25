@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main.views import (RoomAddView, HomePageView, RoomsDisplayView, delete_room_view, EditRoomView)
+from main.views import (RoomAddView, HomePageView, RoomsDisplayView, delete_room_view, EditRoomView, ReserveRoom)
 
 
 urlpatterns = [
@@ -27,5 +27,7 @@ urlpatterns = [
     # path('room/<int:room_id>/', , name='make_reservation'),
     path('room/delete/<int:id>', delete_room_view),
     path('room/modify/<int:id>', EditRoomView.as_view()),
+    path('room/reserve/<int:id>', ReserveRoom.as_view()),
+
 
 ]
