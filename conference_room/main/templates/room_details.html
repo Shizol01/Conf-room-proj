@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Conference room {{ room.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <div class="card shadow rounded-3 mb-4">
+        <div class="card-body">
+            <h3 class="card-title mb-3">{{ room.name }}</h3>
+
+            <p><strong>Capacity:</strong> {{ room.capacity }}</p>
+            <p>
+                <strong>Projector:</strong>
+                {% if room.projector %}
+                    <span class="badge bg-success">Available</span>
+                {% else %}
+                    <span class="badge bg-danger">Unavailable</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Reservations:</h4>
+
+    {% if reservations %}
+        <ul class="list-group mb-4">
+            {% for reservation in reservations %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ reservation.date|date:"d.m.Y" }}
+                    <span class="text-muted">{{ reservation.comment }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info">No reservations for this room.</div>
+    {% endif %}
+
+    <div class="d-flex gap-2">
+        <a href="{% url 'reserve_room' room.id %}" class="btn btn-primary">Reserve room</a>
+        <a href="{% url 'modify_room' room.id %}" class="btn btn-warning">Edit room</a>
+        <a href="{% url 'delete_room' room.id %}" class="btn btn-danger">Delete room</a>
+    </div>
+
+</div>
+{% endblock %}

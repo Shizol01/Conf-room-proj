@@ -28,11 +28,25 @@
 
                     </form>
                     {% if message %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  {{ message }}
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
+                        <div class="alert alert-warning alert-dismissible fade show text-break" role="alert" style="word-break: break-word;">
+                          {{ message }}
+                        </div>
+                    {% endif %}
+                     {% if reservations %}
+                        <ul class="list-group mb-4">
+                            {% for reservation in reservations %}
+                                <li class="list-group-item">
+                                    <div>
+                                        <strong>{{ reservation.date|date:"d.m.Y" }}</strong><br>
+                                        <span class="text-muted text-break">{{ reservation.comment }}</span>
+                                    </div>
+                                </li>
+
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="alert alert-info">No reservations for this room.</div>
+                    {% endif %}
                 </div>
             </div>
         </div>

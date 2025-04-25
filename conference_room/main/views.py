@@ -89,29 +89,37 @@ class EditRoomView(View):
 class ReserveRoom(View):
     def get(self,request, id):
         room = get_object_or_404(Room, id=id)
-        return render(request, 'reserve_room.html')
+        today = now().date()
+        reservations = room.reservations.filter(date__gte=today).order_by('date')
+        return render(request, 'reserve_room.html',{'reservations': reservations})
 
     def post(self, request, id):
         comment = request.POST['comment']
         date_str = request.POST['date']
         date = datetime.strptime(date_str, '%Y-%m-%d').date()
         today = now().date()
+        room = get_object_or_404(Room, id=id)
+        reservations = room.reservations.filter(date__gte=today).order_by('date')
         if date < today:
             message = 'Date cannot be in the past'
             return render(request, 'reserve_room.html',
-                          {'message': message}, status=400)
+                          {'message': message, 'reservations': reservations}, status=400)
 
         room = get_object_or_404(Room, id=id)
         if room.reservations.filter(date=date).exists():
             message = 'Sorry room is reserved for that date'
             return render(request, 'reserve_room.html',
-                          {'message': message}, status=400)
+                          {'message': message, 'reservations': reservations}, status=400)
 
         Reservation.objects.create(date=date, room=room, comment=comment)
 
         return redirect('list_rooms')
 
-
+def room_details(request, id):
+    room = get_object_or_404(Room, id=id)
+    today = now().date()
+    reservations = room.reservations.filter(date__gte=today).order_by('date')
+    return render(request, 'room_details.html', {'room': room, 'reservations': reservations})
 
 
 

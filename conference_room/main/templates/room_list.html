@@ -7,7 +7,7 @@
     <div class="list-group">
         {% for item in room_data %}
             {% with room=item.room %}
-                <a href="room/{{ room.id }}" class="list-group-item list-group-item-action">
+                <a href="{{ room.id }}" class="list-group-item list-group-item-action">
                     <h2>{{ room.name }}</h2>
                     <strong>Room capacity: {{ room.capacity }} <br>
                         {% if room.projector %}
