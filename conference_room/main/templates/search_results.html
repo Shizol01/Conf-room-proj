@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="mb-4">Search Results</h3>
+
+    {% if rooms %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for room in rooms %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ room.name }}</h5>
+                            <p class="card-text">
+                                <strong>Capacity:</strong> {{ room.capacity }}<br>
+                                <strong>Projector:</strong> 
+                                {% if room.projector %}
+                                    <span class="text-success">Available</span>
+                                {% else %}
+                                    <span class="text-danger">Not available</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer text-end bg-transparent border-0">
+                            <a href="{% url 'room_detail' room.id %}" class="btn btn-outline-primary btn-sm">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info mt-4">
+            Brak wolnych sal dla podanych kryteriów wyszukiwania.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

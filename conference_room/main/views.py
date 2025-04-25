@@ -34,7 +34,7 @@ class RoomAddView(View):
 
         Room.objects.create(name=name, capacity=capacity, projector=projector)
 
-        return redirect('home')
+        return redirect('list_rooms')
 
 
 class RoomsDisplayView(View):
@@ -120,6 +120,33 @@ def room_details(request, id):
     today = now().date()
     reservations = room.reservations.filter(date__gte=today).order_by('date')
     return render(request, 'room_details.html', {'room': room, 'reservations': reservations})
+
+
+def search_rooms(request):
+    name = request.GET.get('name')
+    capacity = request.GET.get('capacity')
+    projector = request.GET.get('projector')
+    today = now().date()
+
+    rooms = Room.objects.all()
+
+    if name:
+        rooms = rooms.filter(name__icontains=name)
+    if capacity:
+        rooms = rooms.filter(capacity__gte=capacity)
+    if projector:
+        rooms = rooms.filter(projector=True)
+
+    # Pokaż tylko sale, które nie mają rezerwacji dzisiaj
+    reserved_rooms_ids = Room.objects.filter(reservations__date=today).values_list('id', flat=True)
+    rooms = rooms.exclude(id__in=reserved_rooms_ids)
+
+    context = {
+        'rooms': rooms,
+    }
+    return render(request, 'search_results.html', context)
+
+
 
 
 

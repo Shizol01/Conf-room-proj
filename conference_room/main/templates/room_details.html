@@ -24,12 +24,15 @@
     <h4 class="mb-3">Reservations:</h4>
 
     {% if reservations %}
-        <ul class="list-group mb-4">
+         <ul class="list-group mb-4">
             {% for reservation in reservations %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ reservation.date|date:"d.m.Y" }}
-                    <span class="text-muted">{{ reservation.comment }}</span>
+                <li class="list-group-item">
+                    <div>
+                        <strong>{{ reservation.date|date:"d.m.Y" }}</strong><br>
+                        <span class="text-muted text-break">{{ reservation.comment }}</span>
+                    </div>
                 </li>
+
             {% endfor %}
         </ul>
     {% else %}
